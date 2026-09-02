@@ -24,25 +24,24 @@ public:
         int length = 0;
         int total_length = s.length();
 
-        unordered_map<char, char *> included_characters;
+        char *included_characters[128] = {};
         while ((pointer - start) < total_length)
         {
-            if (included_characters[(pointer[0])] == nullptr || substr_start_ptr - included_characters[pointer[0]] > 0)
+            if (included_characters[(unsigned char)(pointer[0])] == nullptr || substr_start_ptr - included_characters[(unsigned char)((pointer[0]))] > 0)
             {
-                if (substr_start_ptr - included_characters[pointer[0]] < 0)
-                {
-                    included_characters.erase(pointer[0]);
+                if (substr_start_ptr - included_characters[(unsigned char)((pointer[0]))] < 0) {
+                    included_characters[(unsigned char)((pointer[0]))] = nullptr;
                 }
                 length++;
             }
             else
             {
                 ans = max(length, ans);
-                length = pointer - included_characters[pointer[0]];
-                substr_start_ptr = included_characters[pointer[0]];
+                length = pointer - included_characters[(unsigned char)(pointer[0])];
+                substr_start_ptr = included_characters[(unsigned char)(pointer[0])];
                 substr_start_ptr++;
             }
-            included_characters[pointer[0]] = pointer;
+            included_characters[(unsigned char)(pointer[0])] = pointer;
             pointer++;
         }
 
